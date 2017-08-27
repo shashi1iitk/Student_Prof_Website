@@ -49,17 +49,16 @@ class TASK
 	}
 	
 	
-	public function edit($t_task_id)
+	public function edit($t_task_id, $new_taskname)
 	{
 		try
 		{
 			$stmt = $this->conn->prepare("SELECT task_id, taskname FROM task WHERE task_id =:t_task_id");
 			$stmt->execute(array(':t_task_id'=>$t_task_id));
-			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+			$taskRow=$stmt->fetch(PDO::FETCH_ASSOC);
 			if($stmt->rowCount() != 0)
 			{
-					$_SESSION['task_session'] = $userRow['task_id'];
-					
+					$taskrow['taskname'] = $new_taskname;
 					
 					return true;
 			}
