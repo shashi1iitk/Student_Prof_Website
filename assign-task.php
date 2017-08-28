@@ -24,24 +24,21 @@ if(isset($_POST['btn-assign']))
     $error[] = "Select atleast one student!";  
   }
   else{
-     foreach($student as $student => $selected) {
+    $selected_student=null;
+     foreach($student as $selected) {
+      $selected_student =  $selected_student.",".$selected;
+
+           }
 
           try {
-                      $task_id=1;    //initial assign the task_id as 1
-                      $task->assign($user_id,$selected,$taskname,$task_id);
+                      $task->assign($taskname,$user_id,$selected_student);
                }
           catch(PDOException $e)
                {
                   echo $e->getMessage();
                 }
-           }
         }
 }
-
-
-
-
-	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -57,7 +54,7 @@ if(isset($_POST['btn-assign']))
 <body>
 
 
-<nav class="navbar navbar-default navbar-fixed-top" style="visibility: hidden;">
+<nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -124,13 +121,13 @@ if(isset($_POST['btn-assign']))
     <h3>Select Students:</h3>
     <?php
    $student="0";
-  $stmt = $auth_user->runQuery("SELECT user_name FROM users WHERE user_prof=:student");
+  $stmt = $auth_user->runQuery("SELECT user_name,user_id FROM users WHERE user_prof=:student");
   $stmt->execute(array(":student"=>$student));
   
        
 while ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
   ?>
-<input type="checkbox" name="student[]" value="<?php  echo $user['user_name']; ?>"><?php  echo $user['user_name']; ?><br>
+<input type="checkbox" name="student[]" value="<?php  echo $user['user_id']; ?>"><?php  echo $user['user_name']; ?><br>
   <?php
 }
   ?> 

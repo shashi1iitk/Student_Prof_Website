@@ -13,19 +13,18 @@ class TASK
 		$this->conn = $db;
     }
 		
-	public function assign($t_prof_id,$t_student_id,$t_taskname,$t_task_id)
+	public function assign($t_taskname,$t_prof_id,$t_student_id)
 	{
 		try
 		{
 			
 			$t_status = 0;
 			
-			$stmt = $this->conn->prepare("INSERT INTO task(prof_id,student_id,taskname,task_id,status) VALUES(:t_prof_id, :t_student_id, :t_taskname, :t_task_id, :t_status)");
-												  
+			$stmt = $this->conn->prepare("INSERT INTO task(taskname,prof_id,student_id,status) VALUES(:t_taskname,:t_prof_id,:t_student_id,:t_status)");
+
+		    $stmt->bindparam(":t_taskname", $t_taskname);										  
 			$stmt->bindparam(":t_prof_id", $t_prof_id);
 			$stmt->bindparam(":t_student_id", $t_student_id);
-			$stmt->bindparam(":t_taskname", $t_taskname);
-			$stmt->bindparam(":t_task_id", $t_task_id);		  
 			$stmt->bindparam(":t_status", $t_status);
 			
 			$stmt->execute();	
