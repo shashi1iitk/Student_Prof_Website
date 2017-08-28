@@ -45,7 +45,7 @@
             <?php
             if($userRow['user_prof']=="1"){
             ?>
-            <li><a href="#">Assign Task</a></li>
+            <li><a href="assign-task.php">Assign Task</a></li>
             <?php
             }
             ?>
@@ -78,7 +78,20 @@
       <h3>Tasks Table:</h3>
       <table border="1" style="width:100%;padding:10px;">
         <tr>
+        <?php
+        if($userRow['user_prof']==1){
+          ?>
           <th>Professor Name</th>
+          <?php
+        }
+        else{
+        ?>
+        <th>Students Name</th>
+        <?php
+      }
+      ?>
+
+          
            <th>Task</th>
             <th>Action</th>
         </tr>
@@ -88,7 +101,7 @@
               <td>
               <button>Complete</button>
                  <?php
-            if($userRow['user_prof']=="professor"){
+            if($userRow['user_prof']=="1"){
             ?>
              <button>Delete</button>
               <button>Edit</button>
