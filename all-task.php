@@ -45,7 +45,7 @@
             <?php
             if($userRow['user_prof']=="1"){
             ?>
-            <li><a href="#">Assign Task</a></li>
+            <li><a href="assign-task.php">Assign Task</a></li>
             <?php
             }
             ?>
@@ -64,16 +64,9 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-
-
     <div class="clearfix"></div>
-    	
-    
 <div class="container-fluid" style="margin-top:80px;">
-	
     <div class="container">
-    
-   
       <h3>All Tasks Table:</h3>
       <table border="1" style="width:100%;padding:10px;">
         <tr>
@@ -81,15 +74,43 @@
            <th>Student Names</th>
             <th>Task</th>
         </tr>
+<?php
+  
+  $status=0;
+  $stm = $auth_user->runQuery("SELECT * FROM task WHERE status=:status_now");
+  $stm->execute(array(":status_now"=>$status));
+  
+  while($userTask=$stm->fetch(PDO::FETCH_ASSOC)){
+?>
         <tr>
-          <td>saurav singh</td>
-             <td>
-             <ol>
-               <li>Shashi Ranjan</li>
-                <li>Neelanjan akuli</li>
-             </ol>
+          <td>
+          <?php
+           $spm = $auth_user->runQuery("SELECT user_name FROM users WHERE user_id=:prof_id");
+           $spm->execute(array(":prof_id"=>$userTask['prof_id']));
+           $userask=$spm->fetch(PDO::FETCH_ASSOC);
+           echo $userask['user_name'];
+            ?>
+          </td>
+             <td><ol>
+             <?php
+              $arr=explode(",",$userTask['student_id']);
+              for($x=1;$x<count($arr);$x++){
+                ?>
+                  <li><?php 
+                    $stu_name = $auth_user->runQuery("SELECT user_name FROM users WHERE user_id=:stu_id");
+                    $stu_name->execute(array(":stu_id"=>$arr[$x]));
+                    $student_name=$stu_name->fetch(PDO::FETCH_ASSOC);
+                   echo $student_name['user_name']; 
+                  } ?>  
+                  </li>
+                </ol>
              </td>
-              <td>what is cell?</td>
+              <td>
+               <?php
+               echo $userTask['taskname'];
+             }
+               ?>
+              </td>
         </tr>
 
       </table>

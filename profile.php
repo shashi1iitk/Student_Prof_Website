@@ -42,11 +42,11 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="home.php">Your Task</a></li>
-            <li><a href="#">All Task</a></li>
+            <li><a href="all-task.php">All Task</a></li>
             <?php
             if($userRow['user_prof']==1){
             ?>
-            <li><a href="#">Assign Task</a></li>
+            <li><a href="assign-task.php">Assign Task</a></li>
             <?php
             }
             ?>
@@ -74,7 +74,7 @@
     
     	<label class="h5">welcome : <?php print($userRow['user_name']); ?></label><br>
         <label class="h5">Your Email: <?php print($userRow['user_email']); ?></label><br>
-          <label class="h5">Profession : <?php if($userRow['user_prof']==1)echo "Professor"; else echo "Student"; ?></label><br>
+          <label class="h5">Profession : <?php if($userRow['user_prof']==1)echo 'Professor';else echo 'Student'; ?></label><br>
         <hr />
         
     </div>

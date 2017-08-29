@@ -79,7 +79,7 @@
       <table border="1" style="width:100%;padding:10px;">
         <tr>
         <?php
-        if($userRow['user_prof']==1){
+        if($userRow['user_prof']==0){
           ?>
           <th>Professor Name</th>
           <?php
@@ -90,29 +90,52 @@
         <?php
       }
       ?>
-
-          
-           <th>Task</th>
+            <th>Task</th>
             <th>Action</th>
         </tr>
+
         <tr>
-          <td>Saurav Kumar</td>
-             <td>what is cell?</td>
-              <td>
-              <button>Complete</button>
-                 <?php
+        <?php
+        if($userRow['user_prof']==1){
+        $status=0;
+        $stm = $auth_user->runQuery("SELECT student_id,taskname,task_id FROM task WHERE prof_id=:user_id AND status=:status");
+        $stm->execute(array(":user_id"=>$user_id,":status"=>$status));
+  
+        while($student=$stm->fetch(PDO::FETCH_ASSOC)){
+       echo "<td>";
+       $arr=explode(",",$student['student_id']);
+       echo "<ol>";
+       for($x=1;$x<count($arr);$x++){
+               
+                    $stu_name = $auth_user->runQuery("SELECT user_name FROM users WHERE user_id=:stu_id");
+                    $stu_name->execute(array(":stu_id"=>$arr[$x]));
+                    $student_name=$stu_name->fetch(PDO::FETCH_ASSOC);
+                  echo "<li>"; echo $student_name['user_name'];echo "</li>";
+                ;
+                  }
+                echo "</ol>";
+                echo "</td>";
+            echo "<td>";
+            echo $student['taskname'];
+            echo "</td>";
+            echo "<td>";
+            ?>
+             <button name="<?php echo $student['task_id']; ?>">Complete</button>
+            <?php
             if($userRow['user_prof']=="1"){
             ?>
-             <button>Delete</button>
-              <button>Edit</button>
+             <button name="<?php echo $student['task_id']; ?>">Delete</button>
+              <button name="<?php echo $student['task_id']; ?>">Edit</button>
             <?php
             }
             ?>
               </td>
         </tr>
-
+            <?php
+  }
+}
+?>   
       </table>
-        
     </div>
 </div>
 
