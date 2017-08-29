@@ -71,7 +71,7 @@
       <table border="1" style="width:100%;padding:10px;">
         <tr>
           <th>Professor Name</th>
-           <th>Student Names</th>
+           <th>Students Name</th>
             <th>Task</th>
         </tr>
 <?php

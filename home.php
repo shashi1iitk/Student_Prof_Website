@@ -94,13 +94,13 @@
             <th>Action</th>
         </tr>
 
-        <tr>
+       
         <?php
         if($userRow['user_prof']==1){
         $status=0;
         $stm = $auth_user->runQuery("SELECT student_id,taskname,task_id FROM task WHERE prof_id=:user_id AND status=:status");
         $stm->execute(array(":user_id"=>$user_id,":status"=>$status));
-  
+        echo "<tr>";
         while($student=$stm->fetch(PDO::FETCH_ASSOC)){
        echo "<td>";
        $arr=explode(",",$student['student_id']);
@@ -111,7 +111,6 @@
                     $stu_name->execute(array(":stu_id"=>$arr[$x]));
                     $student_name=$stu_name->fetch(PDO::FETCH_ASSOC);
                   echo "<li>"; echo $student_name['user_name'];echo "</li>";
-                ;
                   }
                 echo "</ol>";
                 echo "</td>";
@@ -120,12 +119,12 @@
             echo "</td>";
             echo "<td>";
             ?>
-             <button name="<?php echo $student['task_id']; ?>">Complete</button>
+             <button class="btn btn-primary" name="<?php echo $student['task_id']; ?>">Complete</button>
             <?php
             if($userRow['user_prof']=="1"){
             ?>
-             <button name="<?php echo $student['task_id']; ?>">Delete</button>
-              <button name="<?php echo $student['task_id']; ?>">Edit</button>
+             <button class="btn btn-primary" name="<?php echo $student['task_id']; ?>">Delete</button>
+              <button class="btn btn-primary" name="<?php echo $student['task_id']; ?>">Edit</button>
             <?php
             }
             ?>
@@ -134,7 +133,39 @@
             <?php
   }
 }
-?>   
+        if($userRow['user_prof']==0){
+        $status=0;
+        $stm = $auth_user->runQuery("SELECT student_id,prof_id,taskname,task_id FROM task WHERE status=:status");
+        $stm->execute(array(":status"=>$status));
+        echo "<tr>";
+        while($professor=$stm->fetch(PDO::FETCH_ASSOC)){
+      
+       $arr=explode(",",$professor['student_id']);
+      
+       for($x=1;$x<count($arr);$x++){
+               
+                    if($arr[$x]==$user_id){
+                    echo "<td>";
+                    $stu_name = $auth_user->runQuery("SELECT user_name FROM users WHERE user_id=:pro_id");
+                    $stu_name->execute(array(":pro_id"=>$professor['prof_id']));
+                    $professor_name=$stu_name->fetch(PDO::FETCH_ASSOC);
+                    echo $professor_name['user_name'];
+                 
+                echo "</td>";
+            echo "<td>";
+            echo $professor['taskname'];
+            echo "</td>";
+            echo "<td>";
+            ?>
+             <button class="btn btn-primary" name="<?php echo $professor['task_id']; ?>">Complete</button>
+              </td>
+        </tr>
+            <?php
+             }
+           }
+          }
+        }
+      ?>
       </table>
     </div>
 </div>

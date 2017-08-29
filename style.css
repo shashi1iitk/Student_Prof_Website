@@ -5,6 +5,17 @@ body{
 	background:#f1f9f9;
 }
 
+td{ 
+    padding:2px 0px 2px 8px;
+    border-color:black;
+    font-size:15px;
+}
+th{ 
+    padding:2px 0px 2px 8px;
+    border-color:black;
+    font-size:18px;
+}
+
 .form-signin {
     max-width: 500px;
     padding: 19px 29px 29px;
